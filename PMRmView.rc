@@ -1,0 +1,119 @@
+/*
+ * PMRmView - PM frontend for RMVIEW.
+ *
+ * ver 1.0, 25 Feb 2000
+ *
+ * Public domain by:
+ *   Jari Laaksonen
+ *   Arkkitehdinkatu 30 A 2
+ *   FIN-33720 Tampere
+ *   FINLAND
+ *
+ *   email: jari.j.laaksonen@nokia.com
+ */
+
+#include <os2.h>
+#include "resource.h"
+
+ICON ID_PMRMVIEW PMRmView.ico
+
+MENU ID_PMRMVIEW
+{
+    SUBMENU "~File",                           IDM_FILE
+    {
+        MENUITEM "Save Buffer ~as...",         IDM_SAVEAS
+        MENUITEM SEPARATOR
+        MENUITEM "E~xit",                      IDM_EXIT
+    }
+
+    SUBMENU "~Edit",                           IDM_EDIT
+    {
+        MENUITEM "~Undo",                      IDM_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "~Copy",                      IDM_COPY
+        MENUITEM "Cl~ear",                     IDM_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "Select ~All\tCtrl+A",        IDM_SELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "~Find...\tCtrl+F",           IDM_FIND
+    }
+
+/*
+     /P     Display Physical view (default)
+     /P1            Physical view with planar chipset
+     /D     Display Driver view
+     /DA            Driver view - with snoopers
+     /D1            Driver view with planar chipset
+     /DC    Display Detected view - Current boot tree only
+     /DP    Display Detected view - Previous boot tree only
+     /L     Display Logical view
+        /R       Display raw data. Use with P L D switch
+
+     /IRQ   Display claimed Interrupt levels (IRQ)
+     /IO    Display claimed IO ports above 100 Hex
+     /IOA   Display all claimed IO ports
+     /DMA   Display claimed DMA channels
+     /MEM   Display claimed Memory regions
+        /SO     Sort IO, IOA, IRQ, DMA, MEM by owner
+
+     /HW    Display Hardware Tree
+*/
+
+    SUBMENU "~Commands",                       IDM_COMMANDS
+    {
+        MENUITEM "~Physical view",                          IDM_P
+        MENUITEM "Physical view with planar chipset",       IDM_P1
+        MENUITEM "Driver view",                             IDM_D
+        MENUITEM "Driver view - with snoopers",             IDM_DA
+        MENUITEM "Driver view with planar chipset",         IDM_D1
+        MENUITEM "Detected view - Current boot tree only",  IDM_DC
+        MENUITEM "Detected view - Previous boot tree only", IDM_DP
+        MENUITEM "Logical view",                            IDM_L
+        MENUITEM "Claimed Interrupt levels (IRQ)",          IDM_IRQ
+        MENUITEM "Claimed IO ports above 100 Hex",          IDM_IO
+        MENUITEM "All claimed IO ports",                    IDM_IOA
+        MENUITEM "Claimed DMA channels",                    IDM_DMA
+        MENUITEM "Claimed Memory regions",                  IDM_MEM
+        MENUITEM "Hardware Tree",                           IDM_HW
+    }
+
+    SUBMENU "~Help",                           IDM_HELP
+    {
+        MENUITEM "~About...",                  IDM_ABOUT
+    }
+}
+
+ACCELTABLE ID_PMRMVIEW
+{
+   "A", IDM_SELECTALL, CHAR, CONTROL
+   "a", IDM_SELECTALL, CHAR, CONTROL
+   "F", IDM_FIND, CHAR, CONTROL
+   "f", IDM_FIND, CHAR, CONTROL
+}
+
+DLGTEMPLATE IDD_FIND LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Find", IDD_FIND, 30, 30, 208, 56, FS_NOBYTEALIGN | WS_VISIBLE,
+            FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        LTEXT           "Search file for text...", -1, 57, 45, 88, 8
+        LTEXT           "Target:", -1, 9, 31, 30, 8
+        ENTRYFIELD      "", DID_FINDTEXT, 47, 30, 151, 8, ES_MARGIN
+        DEFPUSHBUTTON   "Find", DID_OK, 43, 8, 38, 13
+        PUSHBUTTON      "Cancel", DID_CANCEL, 126, 8, 38, 13
+    END
+END
+
+DLGTEMPLATE IDD_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "About PMRmView", IDD_ABOUT, 30, 30, 212, 88, FS_NOBYTEALIGN |
+            WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        CTEXT           "PM frontend for RMVIEW", -1, 23, 72, 163, 8,
+                        DT_VCENTER
+        ICON            ID_PMRMVIEW, ID_PMRMVIEW, 87, 48, 22, 16, WS_GROUP
+        CTEXT           "Copyright (c) 2000, Jari Laaksonen", -1, 23, 33,
+                        163, 8, DT_VCENTER
+        DEFPUSHBUTTON   "OK", DID_OK, 81, 10, 38, 13
+    END
+END
